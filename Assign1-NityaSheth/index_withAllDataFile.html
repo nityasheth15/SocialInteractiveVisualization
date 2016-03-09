@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+svg {
+  font: 10px sans-serif;
+}
+
+.y.axis path {
+  display: none;
+}
+
+.y.axis line {
+  stroke: #fff;
+  stroke-opacity: 2;
+  shape-rendering: crispEdges;
+}
+
+.y.axis .zero line {
+  stroke: #000;
+  stroke-opacity: 1;
+}
+
+.title {
+  font: 200 58px Helvetica Neue;
+  fill: ##67E;
+}
+
+.operationName
+{
+  text-anchor: middle;
+  fill: #fff;
+}
+
+rect {
+  fill-opacity: .6;
+  fill: #e377c2;
+}
+rect.bordered {
+        stroke: #E6E6E6;
+        stroke-width:2px;   
+}
+
+text.mono {
+        font-size: 9pt;
+        font-family: Consolas, courier;
+        fill: #aaa;
+}
+
+ text.axis-workweek {
+        fill: #000;
+}
+
+text.axis-worktime {
+        fill: #000;
+}
+	  
+rect:first-child {
+  fill: #1f77b4;
+}
+
+nameHeading {
+fill: #1f77b4;
+font: 400 78px Helvetica Neue;
+}
+
+path.slice{
+	stroke-width:2px;
+}
+
+polyline{
+	opacity: .1;
+	stroke: black;
+	stroke-width: 2px;
+	fill: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+#headerBar {
+    height: 90px;
+    background: black;
+    width: 100%;
+}
+
+#headerText 
+{
+	font-family: "Times New Roman";
+    font-size: 18px;
+	color: white;
+	position:absolute;
+    <!-- text-align: left; -->
+}
+
+#area1
+{
+    width: 60%;
+    float: left;
+    height: 800;
+    <!-- background-color: blue; -->
+
+}
+#explainHistogram
+{
+	width: 40%;
+    float: right;
+    height: 800;
+
+}
+
+#area2
+{
+    width: 60%;
+    float: left;
+    height: 1200;
+}
+#explainPieChart
+{
+	width: 40%;
+    float: right;
+    height: 800;
+}
+
+#chart
+{
+	width: 60%;
+    float: left;
+    height: 800;
+}
+#explainChart
+{
+	width: 40%;
+    float: right;
+    height: 800;
+}
+
+
+#userIdList{
+	background: #E6E6E6
+}
+
+#container,#container2,#container3
+{
+    width: 700;
+	height: 600
+    background-color: #ffcc33;
+    margin: auto;
+}
+
+
+body
+{
+	background-color:#FAFAFA;
+}
+</style>
+
+
+<body  id="body">
+<div id="headerBar">
+<!-- <p id="headerText"> -->
+<h1 text-align:"center" style="color:white" >CSE 591: Adaptive Web</h1> 
+<h3 style="color:white">-Nitya Sheth [1208662984]</h3>
+<!-- </p> -->
+</div>
+<select id="userIdList" style="color:black" onchange="updateDropDownMenu();">
+  <option value="select">Select ID</option>
+</select>
+<div id="container" >
+<!-- <div class="nameHeading"><h1>Nitya Sheth <h2>ASU ID: 1208662984</h2> </h1></div> -->
+<div id="area1">
+</div>
+<div id="explainHistogram">
+<h2>Figure 1: Number of actions break up for selected student:</h2>
+<p>Analysis and Findings of Histogram:</p>
+<ol>
+<li>This data comes from class_operation.csv.</li>
+<li>This data shows the range of actions of a selected user.</li>
+<li>Analysing the number of each action, we can judge if the user reads or just scrolls away the pages. With the exact count of each action, we can also decide to show a particular content on hit of any one of the events. For example, if we are needed to show some content once the user clicks, we can judge by the number of times our pop-up shows up.  Although, for those level of analysis, way more mining is needed, but this could be the begining point.</li>
+<li>There are 2 interactions here to make more sense of the data.
+<ol>
+<li>Drop down:   To select a particular user to see one's activity count.</li>
+<li>Mouse Hover: Hover the mouse on event name, this will give you exact count of the bar present above it.</li>
+</ol>
+</li>
+<li>The spread sheet was processed by extracting all the user IDs first and then mapping them accross the count of each operation they perform.</li>
+<li>The data structure used here is an array of arrays. The inner array contains user id and count for each action.</li>
+<li>As the number of rows were too high, I have used external library to improve performance of the program.</li>
+<li>Reference: </li>
+	<ol>
+	<li><a href="http://bl.ocks.org/mbostock/4062085">http://bl.ocks.org/mbostock/4062085</a></li>
+	<li><a href="http://www.timdown.co.uk/jshashtable/jshashset.html">http://www.timdown.co.uk/jshashtable/jshashset.html</a></li>
+	</ol>
+</ol>
+</div>
+</div>
+
+<div id="container2">
+<div id="area2"></div>
+<div id="explainPieChart">
+<h2>Figure 2: No. of target_clicked versus timestamp pie chart for selected user:</h2>
+<p>Analysis and findings of Pie Chart:</p>
+<ol>
+<li>The Pie chart is created from 'class_operation.csv'</li>
+<li>It displays number of actions occurred in particular time stamp for the selected user.</li>
+<li>This is useful analysis can be useful for finding user patterns. If suppose we need to make an analysis of the time in a day when the user is most active, we can use the pie chart information. Also, we can find most favourable time of the week, or holiday and make certain predictions of the same set of users to be active next time the same period comes.</li>
+<li>Thus, if user profiles are created and these results are stored, they can be useful in many ways.</li>
+<li>Also, we can catogerize the users and put certain advertisements at certain times and using other information, we can even mine and find
+similarities between different users. The pie chart is the begining to that mining process.</li>
+<li>For this pie chart to come live, the data had to be processed in order to have count of all the actions map to each of the timestamp which was again mapped to each of the user.</li>
+<li>The data structure used to achieve this is: dictionary{key1:dictionary{key2:value}}, where key1 = uid, key2=timestamp and value=count of all operation in that timestamp.</li>
+<li>There are 2 interactions used:
+<ol>
+<li>Drop down:   The user that was selected previously was used for generating this analysis as well.</li>
+<li>Mouse Hover: Hover the mouse on each of the pie chart slice to find the timestamp name and count of 'target_clicked' action in that timestamp.</li>
+</ol>
+</li>
+<li>Reference:
+<ol>
+<li><a href="http://bl.ocks.org/mbostock/3887193">http://bl.ocks.org/mbostock/3887193</a></li></ol></li>
+</ol>
+</div>
+</div>
+
+<div id="container3">
+<div id="chart"></div>
+<div id="explainChart">
+<h2>Figure 3: No. of 'target_clicked' versus timestamp map for all users:</h2>
+<p>Analysis and findings of Timestamp Map:</p>
+<ol>
+<li>This is the social visualization of all the users versus timestamp of the selected user.</li>
+<li>The map chart uses 'class_click.csv' to find out number of actions per user with selected timestamp.</li>
+<li>The chart displays all the timings the selected user was active in and then displays the same for all the users. Should the user be not active in a particular timestamp, then it shows zero corresponding that user and timestamp.</li>
+<li>The operation here is 'target_clicked', the same concept can be applied on all the operation to find all the number of active users and compare each of them with the selected user.</li>
+<li>The data from the spread sheet was processed to get a mapping between all the timestamps of selected user and find out all the users that were active in that particular set of timestamp.</li>
+<li>To achieve this, the dictionary same as the pie chart was used and then an object data was created of the type object which consisted of user ID, timestamp index and count of actions in that timestamp.</li>
+<li>A matrix was created of the dimensions row=number of users column=number of timestamps the selected user was active in.</li>
+<li>The interaction used here is mouse hover which will give number of actions in particular timestamp, which can also be verified from the pie chart as the data in pie chart comes from 'class_operation.csv' while the data in timestamp-map comes from 'class_click.csv'.</li>
+<li>Legends are shown at the bottom of map.</li>
+<li>Reference:
+<ol><li><a href="http://bl.ocks.org/tjdecke/5558084">http://bl.ocks.org/tjdecke/5558084</a></li></ol></li></ol>
+</div>
+</div>
+
+<script type="text/javascript" src="jshashtable-master/hashtable.js"></script>
+<script type="text/javascript" src="jshashtable-master/hashset.js"></script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script>
+
+//using csv - class_operation.csv
+
+var selectedUserID = "";
+var uidArray = null;
+var timestampArray = null;
+var operationArray = null;
+
+var uIDOperationCountMatrix = null;
+var finalMatrixIndex = 0;
+var checkHashSet = new HashSet();
+
+var margin = {top: 20, right: 40, bottom: 30, left: 20},
+    width = 800 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom,
+    barWidth = Math.floor(width / 25) - 1;
+	
+var widthForPie = 800 - margin.left - margin.right,
+    heightForPie = 700 - margin.top - margin.bottom;
+
+var radius = Math.min(widthForPie, heightForPie)/2;
+	
+var x = d3.scale.linear()
+    .range([barWidth / 2, width - barWidth / 2]);
+
+var	y = d3.scale.linear()
+    .range([height, 0]);
+	
+	
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("right")
+    .tickSize(-width)
+    .tickFormat(function(d) { return Math.round(d / 1e3) + "K"; });
+
+var svg = d3.select("#area1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+	.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
+
+var operationNames = svg.append("g")
+    .attr("class", "operationName");
+
+//pie chart!	
+var svg2 = d3.select("#area2").append("svg")
+		.attr("width", widthForPie + margin.left + margin.right)
+        .attr("height", heightForPie + margin.top + margin.bottom)
+		.append("g")
+svg2.attr("transform", "translate(" + widthForPie / 1.85 + "," + heightForPie / 2 + ")");	
+	
+	svg2.append("g")
+	.attr("class", "slices");
+	svg2.append("g")
+	.attr("class", "labels");
+	svg2.append("g")
+	.attr("class", "lines");
+	
+	radius = Math.min(width, height) / 2;
+
+var pie = d3.layout.pie()
+	.sort(null)
+	.value(function(d) {
+		return d.value;
+	});
+
+var arc = d3.svg.arc()
+	.outerRadius(radius * 0.8)
+	.innerRadius(radius * 0.4);
+
+var outerArc = d3.svg.arc()
+	.innerRadius(radius * 0.9)
+	.outerRadius(radius * 0.9);
+
+
+var key = function(d){ return d.data.label; };
+
+
+var classClickData = null;
+var color = d3.scale.ordinal()
+	.domain([])
+	.range([]);
+
+var marginForTimeStampMap = {top: 100, right: 100, bottom: 50, left: 100};
+
+var widthForTimeStampMap = 960 - marginForTimeStampMap.left - marginForTimeStampMap.right,
+	heightForTimeStampMap = 1420 - marginForTimeStampMap.top - marginForTimeStampMap.bottom,
+	gridSize = Math.floor(widthForTimeStampMap / 24),
+	legendElementWidth = gridSize,
+	buckets = 9,
+	colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
+	uIDToShow = [],
+	timeStampsOfSelectedUser = [];
+	
+var svg3 = d3.select("#chart").append("svg")
+          .attr("width", widthForTimeStampMap + marginForTimeStampMap.left + marginForTimeStampMap.right)
+          .attr("height", heightForTimeStampMap)
+          .append("g")
+          .attr("transform", "translate(" + marginForTimeStampMap.left + "," + marginForTimeStampMap.top+100 + ")");
+	
+	function createPIEChart(data) 
+	{
+		var slice = svg2.select(".slices").selectAll("path.slice")
+			.data(pie(data), key);
+		
+		var tip2 = d3.tip()
+			.attr("class", "d3-tip")
+			.offset([-10, 0])
+			.html(function(d,i) {
+				return "TimeStamp: "+ new Date(parseFloat(d.data.label)).toUTCString() + "<br/>Count: "+d.value;
+			});	
+		svg2.call(tip2);
+		
+		slice.enter()
+			.insert("path")
+			.style("fill", function(d) { return color(d.data.label); })
+			.attr("class", "slice")
+			.on("mouseover", tip2.show)
+			.on("mouseout", tip2.hide);
+			
+		slice		
+			.transition().duration(1000)
+			.attrTween("d", function(d) {
+				this._current = this._current || d;
+				var interpolate = d3.interpolate(this._current, d);
+				this._current = interpolate(0);
+				return function(t) {
+					return arc(interpolate(t));
+				};
+			})
+			
+		slice.exit()
+			 .remove();
+		
+		var text = svg2.select(".labels").selectAll("text")
+			.data(pie(data), key);
+
+		
+		text.enter()
+			.append("text")
+			.attr("dy", ".35em")
+			.text(function(d) { return new Date(parseFloat(d.data.label)).toUTCString();});
+		
+		function midAngle(d){
+			return d.startAngle + (d.endAngle - d.startAngle)/2;
+		}
+
+		text.transition().duration(1000)
+			.attrTween("transform", function(d) {
+				this._current = this._current || d;
+				var interpolate = d3.interpolate(this._current, d);
+				this._current = interpolate(0);
+				return function(t) {
+					var d2 = interpolate(t);
+					var pos = outerArc.centroid(d2);
+					pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+					return "translate("+ pos +")";
+				};
+			})
+			.styleTween("text-anchor", function(d){
+				this._current = this._current || d;
+				var interpolate = d3.interpolate(this._current, d);
+				this._current = interpolate(0);
+				return function(t) {
+					var d2 = interpolate(t);
+					return midAngle(d2) < Math.PI ? "start":"end";
+				};
+			});
+
+		text.exit()
+			.remove();
+
+		/* ------- SLICE TO TEXT POLYLINES -------*/
+
+		var polyline = svg2.select(".lines").selectAll("polyline")
+			.data(pie(data), key);
+		
+		polyline.enter()
+			.append("polyline");
+
+		polyline.transition().duration(1000)
+			.attrTween("points", function(d){
+				this._current = this._current || d;
+				var interpolate = d3.interpolate(this._current, d);
+				this._current = interpolate(0);
+				return function(t) {
+					var d2 = interpolate(t);
+					var pos = outerArc.centroid(d2);
+					pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+					return [arc.centroid(d2), outerArc.centroid(d2), pos];
+				};			
+			});
+		
+		polyline.exit()
+			.remove();
+	}
+	
+	function contains(a, obj) 
+	{
+		for (var i = 0; i < a.length; i++) 
+		{
+			if (a[i] === obj) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function timeStampMapChart()
+	{
+		//data = uIDTimestampCountDictionary!
+		
+		var allUsers = Object.keys(uIDTimestampCountDictionary);
+		maxTimeStampCount = 0;
+		var timeStampsOfSelectedUser = uIDTimestampCountDictionary[selectedUserID]; //dictionary
+		var timeStampKeysForSelectedUser = [];
+		
+		if(timeStampsOfSelectedUser != null)
+		{
+			timeStampKeysForSelectedUser = Object.keys(timeStampsOfSelectedUser);
+		}
+		
+		for(b=0;b<timeStampKeysForSelectedUser.length;b++)
+		{
+			if(timeStampsOfSelectedUser[timeStampKeysForSelectedUser[b]] >= maxTimeStampCount)
+			{
+				maxTimeStampCount = timeStampsOfSelectedUser[timeStampKeysForSelectedUser[b]];
+			}
+		}
+		
+		var colorScale = d3.scale.quantile()
+              .domain([0, buckets - 1, maxTimeStampCount])
+              .range(colors);
+		
+		var dataOne = new Array(timeStampKeysForSelectedUser.length*allUsers.length);
+		
+		counter=0;
+		for(cc=0;cc<allUsers.length;cc++)
+			{
+				var eachUserTimeStampDic = uIDTimestampCountDictionary[allUsers[cc]];
+				var allTimeStampsOfEachUser = Object.keys(eachUserTimeStampDic);
+				for(e=0;e<timeStampKeysForSelectedUser.length;e++)
+				{
+					
+					if(contains(allTimeStampsOfEachUser,timeStampKeysForSelectedUser[e]))
+					{//new Object({uID: indexOfUserFromAlluserArray, timeStamp:indexFromTimeStampOfSelectedUser,count:---})
+						
+						dataOne[counter] = new Object({uID:cc,timeStamp:e,count:eachUserTimeStampDic[timeStampKeysForSelectedUser[e]]});
+					}
+					else
+					{
+						dataOne[counter] = new Object({uID:cc,timeStamp:e,count:0});
+					}
+					counter++;
+				}
+			}
+		
+			var tip = d3.tip()
+			.attr("class", "d3-tip")
+			.offset([-10, 0])
+			.html(function(d) {
+				return d.count;
+			});
+		
+		svg3.call(tip);
+		var cards = svg3.selectAll(".timeStamps")
+              .data(dataOne, function(d) {return d.timeStamp+':'+d.uID})
+			  .on("mouseover", tip.show)
+			  .on("mouseout", tip.hide);
+		
+		cards.append("title");
+		  
+		cards.enter().append("rect")
+              .attr("x", function(d) { return d.timeStamp * (gridSize/2); })
+              .attr("y", function(d) { return d.uID * (gridSize/2)+100; })
+              .attr("rx", 1)
+              .attr("ry", 1)
+              .attr("class", "timeStampCount bordered")
+              .attr("width", gridSize/2)
+              .attr("height", gridSize/2)
+              .style("fill", colors[0])
+			  .on("mouseover", tip.show)
+			  .on("mouseout", tip.hide);
+			  
+		
+		cards.transition().duration(1000)
+              .style("fill", function(d) { return colorScale(d.count); });
+			  
+		cards.select("title").text(function(d) { return d.count; });
+		cards.exit().remove();
+		
+		var legend = svg3.selectAll(".legend")
+              .data([0].concat(colorScale.quantiles()), function(d) { return d; });
+		
+		legend.enter().append("g")
+              .attr("class", "legend");
+			  
+		legend.append("rect")
+            .attr("x", function(d, i) { return legendElementWidth * i; })
+            .attr("y", heightForTimeStampMap - marginForTimeStampMap.top - marginForTimeStampMap.bottom)
+            .attr("width", legendElementWidth)
+            .attr("height", gridSize / 2)
+            .style("fill", function(d, i) { return colors[i]; });
+		
+		legend.append("text")
+            .attr("class", "mono")
+            .text(function(d) { return "≥ " + Math.round(d); })
+            .attr("x", function(d, i) { return legendElementWidth * i; })
+            .attr("y", gridSize + heightForTimeStampMap - marginForTimeStampMap.top - marginForTimeStampMap.bottom);
+		
+		legend.exit().remove();
+	}
+	
+	
+function updateDropDownMenu()
+{
+	selectedUserID = document.getElementById("userIdList").value;
+	
+	// A sliding container to hold the bars by operationNames.
+	// A label for the current selected User ID.
+	d3.select("svg").remove();
+	svg = d3.select("#area1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+	.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
+
+	operationNames = svg.append("g")
+    .attr("class", "operationName");
+	
+	
+	d3.selectAll("text").remove();
+	var title = svg.append("text")
+	.attr("id","uidText")
+    .attr("class", "title")
+    .attr("dy", ".65em")
+    .text(selectedUserID);
+	
+	svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + width + ",0)")
+    .call(yAxis)
+	.selectAll("g")
+    .filter(function(value) { return !value; })
+    .classed("zero", true);
+	
+	//update the bars.
+	var selectedUserData = new Array(1);
+	for(i=0;i<uIDOperationCountMatrix.length;i++)
+	{
+		if(uIDOperationCountMatrix[i][0] == selectedUserID)
+		{
+			selectedUserData[0] = new Array(4);
+			for(j=1;j<5;j++)
+			{	
+				selectedUserData[0][j-1] = uIDOperationCountMatrix[i][j];
+			}
+			break;
+		}
+	}
+	
+	
+	//draw the rectangle bars for each row.
+	var operationName = operationNames.selectAll(".operationName")
+						.data(d3.range(0,4,1))
+						.enter().append("g")
+						.attr("class","operationName")
+						.attr("transform",function(operationnumber) { return "translate(" + x(operationnumber) + ",0)"; });
+
+		var tip1 = d3.tip()
+			.attr("class", "d3-tip")
+			.offset([-10, 0])
+			.html(function(d,i) {
+				return "Count: "+selectedUserData[0][i];
+			});	
+		svg.call(tip1);
+		
+		operationName.selectAll("rect")
+			.data(function(operationName) { return [selectedUserData[0][operationName]]; })
+			.enter().append("rect")
+			.attr("x", -barWidth / 2)
+			.attr("width", barWidth)
+			.attr("y", y)
+			.attr("height", function(value) { return height - y(value); })
+			
+			
+			
+		var operationNamesInString = new Array(4);
+		operationNamesInString[0] = "target_clicked";
+		operationNamesInString[1] = "scroll_down";
+		operationNamesInString[2] = "scroll_up";
+		operationNamesInString[3] = "select";
+		
+		operationName.append("text")
+			.style('fill', 'black')
+			.style("font-size", "12px")
+			.attr("y", height + 20)
+			.text(function(operationName) { return operationNamesInString[operationName]; })
+			.on("mouseover", tip1.show)
+			.on("mouseout", tip1.hide);
+	
+	//create PIE Chart!	
+	var timeStampsDictionaryOfSelectedUser = uIDTimestampCountDictionary[selectedUserID];	
+		var domainArray = [];
+		if(timeStampsDictionaryOfSelectedUser != null)
+		{
+			domainArray=Object.keys(timeStampsDictionaryOfSelectedUser);
+		}
+		color = d3.scale.ordinal()
+		.domain(domainArray)
+		.range(["#FF0000", "#FFFF00", "#808080", "#00FF00", "#00FFFF", "#0000FF", "#000000", "#ff8c00","#004c4d", "#99ff99", "#cc6699", "#7f8000", "#145252", "#c653c6", "#B8860B", "#006400", "#E9967A", "#696969", "#ADFF2F",  "#90EE90", "#800000", "#F5FFFA", "#CD853F", "#4169E1", "#708090", "#F5DEB3"]);
+		
+		var labels = color.domain();
+		var returnVal = labels.map(function(label){
+			return { label: label, value: timeStampsDictionaryOfSelectedUser[label] }
+		});
+	
+	createPIEChart(returnVal);
+	//PIE Chart created.
+	
+	
+	//create TimeStampMap
+	d3.select("#chart").remove();
+	d3.select("#container3").append("div")
+					 .attr("id","chart");
+	
+	svg3 = d3.select("#chart").append("svg")
+          .attr("width", widthForTimeStampMap + marginForTimeStampMap.left + marginForTimeStampMap.right)
+          .attr("height", heightForTimeStampMap)
+          .append("g")
+          .attr("transform", "translate(" + marginForTimeStampMap.left + "," + marginForTimeStampMap.top + ")");
+	
+	//svg3.call(tip);
+	
+	uIDToShow = Object.keys(uIDTimestampCountDictionary);
+	timeStampsOfSelectedUser = [];
+	if(uIDTimestampCountDictionary[selectedUserID] != null)
+	{
+	  timeStampsOfSelectedUser = Object.keys(uIDTimestampCountDictionary[selectedUserID]);
+	}
+	
+	var uIDLabels = svg3.selectAll(".uIDLabel")
+          .data(uIDToShow)
+          .enter().append("text")
+            .text(function (d) { return d; })
+            .attr("x", 0)
+            .attr("y", function (d, i) { return i * gridSize/2+97; })
+            .style("text-anchor", "end")
+            .attr("transform", "translate(-6," + gridSize / 2.1 + ")")
+            .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "uIDLabel mono axis axis-workweek" : "uIDLabel mono axis"); });
+
+	var timeStampLabels = svg3.selectAll(".timeStampLabel")
+          .data(timeStampsOfSelectedUser)
+          .enter().append("text")
+            .text(function(d) { return new Date(parseFloat(d)).toUTCString(); })
+            .attr("x", function(d, i) { return i * gridSize/2; })
+            .attr("y", 0)
+			.attr("style", "writing-mode: tb")
+            .style("text-anchor", "middle")
+            .attr("transform", "translate(" + gridSize / 3 + ", 0)")
+            .attr("class", function(d, i) { return ((i >= 7 && i <= 16) ? "timeStampLabel mono axis axis-worktime" : "timeStampLabel mono axis"); });
+
+	timeStampMapChart();
+	//timestampmapCreated
+}
+
+//process all the data - make the final matrix
+d3.csv("class_operation_.csv", function(error, data)
+{
+
+	//getting each column into array.
+	uidArray = data.map(function(e) { return e.u_id;})
+	timestampArray = data.map(function(e) {return e.timestamp})
+	operationArray = data.map(function(e) {return e.operation});
+
+	var tempUID = "";
+	var tempUID2 = "";
+	
+	var targetClickedCount = 0;
+	var scrollDownCount = 0;
+	var scrollUpCount = 0;
+	var selectCount = 0;
+	
+	var sel = document.getElementById('userIdList');
+	uIDOperationCountMatrix = new Array(5);
+	
+	
+	for(var i = 0; i < uidArray.length; i++) {
+		
+		if(checkHashSet.contains(uidArray[i]) == false)
+		{
+			checkHashSet.add(uidArray[i]);
+			var opt = document.createElement('option');
+			opt.innerHTML = uidArray[i];
+			opt.value = uidArray[i];
+			sel.appendChild(opt);
+		}
+		
+		//create the final matrix
+		if(targetClickedCount == 0 && scrollDownCount == 0 && scrollUpCount == 0 && selectCount == 0)
+		{
+			tempUID2 = uidArray[i];
+		}
+		
+		tempUID = uidArray[i];
+		
+		if(tempUID == tempUID2)
+		{
+			if(operationArray[i] == "target_clicked")
+			{
+				targetClickedCount++;
+			}
+			else if(operationArray[i] == "scroll_down")
+			{
+				scrollDownCount++;
+			}
+			else if(operationArray[i] == "scroll_up")
+			{
+				scrollUpCount++;
+			}
+			else //select
+			{
+				selectCount++;
+			}
+		}
+		else
+		{
+			//populate in the matrix
+			uIDOperationCountMatrix[finalMatrixIndex] = new Array(5);
+			uIDOperationCountMatrix[finalMatrixIndex][0] = tempUID2;
+			uIDOperationCountMatrix[finalMatrixIndex][1] = targetClickedCount;
+			uIDOperationCountMatrix[finalMatrixIndex][2] = scrollDownCount;
+			uIDOperationCountMatrix[finalMatrixIndex][3] = scrollUpCount;
+			uIDOperationCountMatrix[finalMatrixIndex][4] = selectCount;
+			
+			finalMatrixIndex++;
+			targetClickedCount=0;
+			scrollDownCount = 0;
+			scrollUpCount = 0;
+			selectCount = 0;
+			i--;
+		}
+	}
+	
+	//updating domains for x and y axis.
+	//x-axis -> the four operations.
+	//y-axis -> number of each operation.
+	x.domain([0,4]);
+	
+	var maxCount = 0;
+	for(i=0;i<uIDOperationCountMatrix.length;i++)
+	{
+		for(j=1;j<5;j++)
+		{
+			if(uIDOperationCountMatrix[i][j]>maxCount)
+			{
+				maxCount = uIDOperationCountMatrix[i][j];
+			}
+		}
+	}
+	y.domain([0,maxCount]);
+		
+	// Add an axis to show the population values.
+	svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + width + ",0)")
+    .call(yAxis)
+	.selectAll("g")
+    .filter(function(value) { return !value; })
+    .classed("zero", true);
+});
+
+//using csv - class_click.csv
+var uIDTimestampCountDictionary = {};
+
+d3.csv("class_click.csv",function(error,data)
+{
+	classClickData = data;
+	uidArray = data.map(function(e) { return e.u_id;})
+	timestampArray = data.map(function(e) {return parseFloat(e.timestamp)})
+	
+	var uIDHashSet = new HashSet();
+	var timeStampHashSet = new HashSet();
+	
+	var operationCountForEachTimeStamp = 0;
+	var totalOperationsPerUser = 0;
+	
+	var tempUID = "";
+	var tempUID2 = "";
+	
+	var tempTimeStamp = 0;
+	var tempTimeStamp2 = 0;
+	
+	var timeStampCountArray = new Array(25); //need to check the size.
+	var indexCount = 0;
+	
+	var timeStampCountDictionary = {};
+	
+	for(i=0;i<uidArray.length;i++)
+	{
+		if(totalOperationsPerUser == 0)
+		{
+			tempUID2 = uidArray[i];
+		}
+		tempUID = uidArray[i];
+		
+		if(tempUID == tempUID2)
+		{
+			if(operationCountForEachTimeStamp == 0)
+			{
+				tempTimeStamp2 = timestampArray[i];
+			}
+			tempTimeStamp = timestampArray[i];
+			
+			if(tempTimeStamp == tempTimeStamp2)
+			{
+				operationCountForEachTimeStamp++;
+			}
+			else
+			{
+				//var timeStampCountDictionary = {};
+				timeStampCountDictionary[tempTimeStamp2] = operationCountForEachTimeStamp;
+				
+				//indexCount++;
+				operationCountForEachTimeStamp = 0;
+				i--;
+				continue;//execution of loop ends here.
+			}
+			totalOperationsPerUser++;
+		}
+		else
+		{
+			if(operationCountForEachTimeStamp != 0)
+			{
+				timeStampCountDictionary[tempTimeStamp2] = operationCountForEachTimeStamp;
+				//timeStampCountArray[indexCount] = (timeStampCountDictionary);
+				indexCount++;
+			}
+		
+			uIDTimestampCountDictionary[tempUID2] = timeStampCountDictionary;
+			
+			//reset
+			indexCount = 0;
+			timeStampCountDictionary = {};
+			operationCountForEachTimeStamp = 0;
+			totalOperationsPerUser=0;
+			i--;
+		}
+		
+		if(i==uidArray.length-1)
+		{
+			if(operationCountForEachTimeStamp != 0)
+			{
+				//var timeStampCountDictionary = {};
+				timeStampCountDictionary[tempTimeStamp2] = operationCountForEachTimeStamp;
+				//timeStampCountArray[indexCount] = timeStampCountDictionary;
+			}
+		
+			uIDTimestampCountDictionary[tempUID2] = timeStampCountDictionary;
+			
+			//reset
+			indexCount = 0;
+			timeStampCountDictionary = {};
+			operationCountForEachTimeStamp = 0;
+			totalOperationsPerUser=0;
+		}
+	}
+});
+
+</script>
+
+
+
+</body>
+</html>
