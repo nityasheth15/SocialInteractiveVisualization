@@ -17,3 +17,11 @@ http://localhost:8888/Desktop/D3/index_withAllDataFile.html
 after putting all the files in a folder named D3 in  Desktop.
 Please note that locally it will load the files in just a couple of seconds, hence no need to use index.html
 
+
+- Cleaned and processed stackoverflow searching data given in the form of CSVs, which contained around a total of 600,000 rows, using javascript.
+- Used d3.js to display the data which depicts different analysis and findings suggesting patterns of the users.
+- Used interactive features of d3.js to let the user interact with the graphics and extract useful information.
+- Used d3.js to display social visualization, which compares activities of different users as compared to the selected user.
+- Code for the project:
+  https://github.com/nityasheth15/SocialInteractiveVisualization
+
